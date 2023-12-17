@@ -41,4 +41,12 @@ public class Course {
     public void setInstructor(Instructor instructor) {
         this.instructor = instructor;
     }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void startCourse(){
+        started = true;
+    }
 }

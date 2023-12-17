@@ -37,4 +37,9 @@ public class CourseController {
         Course assignedCourse = courseService.assignInstructorToCourse(courseId, instructorId);
         return new ResponseEntity<>(assignedCourse, HttpStatus.OK);
     }
+    @PostMapping("/{courseId}/start-course")
+    public ResponseEntity<Course> setCourseToStarted(@PathVariable Long courseId) {
+        Course startedCourse = courseService.setCourseToStarted(courseId);
+        return new ResponseEntity<>(startedCourse, HttpStatus.OK);
+    }
 }

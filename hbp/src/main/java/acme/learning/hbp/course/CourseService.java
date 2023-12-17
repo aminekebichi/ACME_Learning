@@ -40,4 +40,16 @@ public class CourseService {
             throw new ResourceNotFoundException("Course or Instructor not found");
         }
     }
+
+    public Course setCourseToStarted(Long courseId) {
+        Optional<Course> optionalCourse = courseRepository.findById(courseId);
+
+        if (optionalCourse.isPresent()) {
+            Course course = optionalCourse.get();
+            course.startCourse();
+            return courseRepository.save(course);
+        } else {
+            throw new ResourceNotFoundException("Course not found");
+        }
+    }
 }
