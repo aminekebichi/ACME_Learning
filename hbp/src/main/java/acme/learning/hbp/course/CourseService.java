@@ -91,4 +91,14 @@ public class CourseService {
             throw new ResourceNotFoundException("Course or Student not found");
         }
     }
+    public List<Student> getStudentsByCourse(Long courseId) {
+        Optional<Course> optionalCourse = courseRepository.findById(courseId);
+
+        if (optionalCourse.isPresent()) {
+            Course course = optionalCourse.get();
+            return course.getStudents();
+        } else {
+            throw new ResourceNotFoundException("Course not found");
+        }
+    }
 }
