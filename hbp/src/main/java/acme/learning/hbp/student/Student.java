@@ -12,4 +12,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("name")
+    private String name;
 }
