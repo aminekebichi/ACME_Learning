@@ -15,6 +15,8 @@ public class Course {
     @ManyToOne
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
+    @JsonProperty("started")
+    private boolean started = false;
 
     public Long getId() {
         return id;
