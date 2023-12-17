@@ -1,29 +1,42 @@
 package acme.learning.hbp.course;
 
+import acme.learning.hbp.student.Student;
 import acme.learning.hbp.course.Course;
 import acme.learning.hbp.course.CourseController;
 import acme.learning.hbp.course.CourseService;
 import acme.learning.hbp.instructor.Instructor;
+import acme.learning.hbp.student.StudentRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Collections;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CourseController.class)
 public class CourseControllerTest {
-
     @MockBean
     private CourseService courseService;
+    @InjectMocks
+    private CourseController courseController;
+    @Mock
+    private CourseRepository courseRepository;
+    @Mock
+    private StudentRepository studentRepository;
 
     @Autowired
     private MockMvc mockMvc;
@@ -35,7 +48,7 @@ public class CourseControllerTest {
         course.setId(1L);
         course.setName("Java Programming");
 
-        Mockito.when(courseService.createCourse(Mockito.any(Course.class))).thenReturn(course);
+        when(courseService.createCourse(Mockito.any(Course.class))).thenReturn(course);
 
         // Act
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/courses")
@@ -55,7 +68,7 @@ public class CourseControllerTest {
         course.setId(1L);
         course.setName("Java Programming");
 
-        Mockito.when(courseService.getAllCourses()).thenReturn(Collections.singletonList(course));
+        when(courseService.getAllCourses()).thenReturn(Collections.singletonList(course));
 
         // Act
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/courses"));
@@ -74,7 +87,7 @@ public class CourseControllerTest {
         course.setId(courseId);
         course.setName("Java Programming");
 
-        Mockito.when(courseService.getCourseById(courseId)).thenReturn(course);
+        when(courseService.getCourseById(courseId)).thenReturn(course);
 
         // Act
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/courses/{id}", courseId));
@@ -89,7 +102,7 @@ public class CourseControllerTest {
     public void testGetCourseById_NonExistingCourse() throws Exception {
         // Arrange
         Long nonExistingCourseId = 999L;
-        Mockito.when(courseService.getCourseById(nonExistingCourseId)).thenReturn(null);
+        when(courseService.getCourseById(nonExistingCourseId)).thenReturn(null);
 
         // Act
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/courses/{id}", nonExistingCourseId));
@@ -114,7 +127,7 @@ public class CourseControllerTest {
 
         assignedCourse.setInstructor(assignedInstructor);
 
-        Mockito.when(courseService.assignInstructorToCourse(courseId, instructorId)).thenReturn(assignedCourse);
+        when(courseService.assignInstructorToCourse(courseId, instructorId)).thenReturn(assignedCourse);
 
         // Act
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/courses/{courseId}/assign-instructor/{instructorId}", courseId, instructorId)
