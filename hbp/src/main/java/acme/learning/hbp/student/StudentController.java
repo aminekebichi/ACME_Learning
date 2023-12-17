@@ -38,4 +38,9 @@ public class StudentController {
         List<Course> enrolledCourses = studentService.getEnrolledCourses(studentId);
         return new ResponseEntity<>(enrolledCourses, HttpStatus.OK);
     }
+    @DeleteMapping("/{studentId}/courses/{courseId}")
+    public ResponseEntity<String> dropCourse(@PathVariable Long studentId, @PathVariable Long courseId) {
+        studentService.dropCourse(studentId, courseId);
+        return ResponseEntity.ok("Course dropped successfully");
+    }
 }
