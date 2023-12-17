@@ -6,6 +6,7 @@ import acme.learning.hbp.instructor.Instructor;
 import acme.learning.hbp.instructor.InstructorRepository;
 import acme.learning.hbp.student.Student;
 import acme.learning.hbp.student.StudentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,9 @@ public class CourseService {
             Instructor instructor = optionalInstructor.get();
 
             course.setInstructor(instructor);
+            instructor.getCourses().add(course);
+
+            instructorRepository.save(instructor);
             return courseRepository.save(course);
         } else {
             throw new ResourceNotFoundException("Course or Instructor not found");

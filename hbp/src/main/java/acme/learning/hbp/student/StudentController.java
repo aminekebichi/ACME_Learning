@@ -1,5 +1,6 @@
 package acme.learning.hbp.student;
 
+import acme.learning.hbp.course.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,5 +32,10 @@ public class StudentController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    @GetMapping("/{studentId}/courses")
+    public ResponseEntity<List<Course>> getEnrolledCourses(@PathVariable Long studentId) {
+        List<Course> enrolledCourses = studentService.getEnrolledCourses(studentId);
+        return new ResponseEntity<>(enrolledCourses, HttpStatus.OK);
     }
 }

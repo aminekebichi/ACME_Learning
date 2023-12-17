@@ -2,6 +2,7 @@ package acme.learning.hbp.course;
 
 import acme.learning.hbp.exceptions.CourseAlreadyStartedException;
 import acme.learning.hbp.student.Student;
+import jakarta.persistence.EntityNotFoundException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
