@@ -64,4 +64,22 @@ public class StudentControllerTest {
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].name").value("John Doe"));
     }
+
+    @Test
+    public void testGetStudentById() throws Exception {
+        Long studentId = 1L;
+        Student student = new Student();
+        student.setId(studentId);
+        student.setName("John Doe");
+
+        Mockito.when(studentService.getStudentById(studentId)).thenReturn(student);
+
+        // Act
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/students/{id}", studentId));
+
+        // Assert
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(studentId))
+                .andExpect(jsonPath("$.name").value("John Doe"));
+    }
 }
