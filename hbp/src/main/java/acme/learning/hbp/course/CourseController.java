@@ -62,4 +62,17 @@ public class CourseController {
         List<Student> students = courseService.getStudentsByCourse(courseId);
         return new ResponseEntity<>(students, HttpStatus.OK);
     }
+    @DeleteMapping("/{courseId}/cancel")
+    public ResponseEntity<String> cancelCourse(@PathVariable Long courseId) {
+        try {
+            courseService.cancelCourse(courseId);
+            return ResponseEntity.ok("Course canceled successfully.");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found with id: " + courseId);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred.");
+        }
+    }
 }

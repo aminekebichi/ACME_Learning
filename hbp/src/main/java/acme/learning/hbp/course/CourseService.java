@@ -105,4 +105,30 @@ public class CourseService {
             throw new ResourceNotFoundException("Course not found");
         }
     }
+    public void cancelCourse(Long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("Course not found with id: " + courseId));
+        // Verify that course is not started
+        if (!course.isStarted()) {
+            // Step 2: Remove enrolled students
+            List<Student> enrolledStudents = course.getStudents();
+            for (Student student : enrolledStudents) {
+                student.getEnrolledCourses().remove(course);
+                studentRepository.save(student);
+            }
+
+            // Step 3: Remove instructor assignment
+            Instructor instructor = course.getInstructor();
+            if (instructor != null) {
+                instructor.getCourses().remove(course);
+                instructorRepository.save(instructor);
+            }
+
+            // Step 4: Delete the course
+            courseRepository.delete(course);
+        } else {
+            // Handle case where the course is already started
+            throw new IllegalStateException("Cannot cancel a started course.");
+        }
+    }
 }
