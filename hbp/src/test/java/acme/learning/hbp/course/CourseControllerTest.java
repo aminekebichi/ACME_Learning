@@ -3,6 +3,7 @@ package acme.learning.hbp.course;
 import acme.learning.hbp.course.Course;
 import acme.learning.hbp.course.CourseController;
 import acme.learning.hbp.course.CourseService;
+import acme.learning.hbp.instructor.Instructor;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,5 +96,36 @@ public class CourseControllerTest {
 
         // Assert
         result.andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testAssignInstructorToCourse() throws Exception {
+        // Arrange
+        Long courseId = 1L;
+        Long instructorId = 2L;
+
+        Course assignedCourse = new Course();
+        assignedCourse.setId(courseId);
+        assignedCourse.setName("Java Programming");
+
+        Instructor assignedInstructor = new Instructor();
+        assignedInstructor.setId(instructorId);
+        assignedInstructor.setName("John Doe");
+
+        assignedCourse.setInstructor(assignedInstructor);
+
+        Mockito.when(courseService.assignInstructorToCourse(courseId, instructorId)).thenReturn(assignedCourse);
+
+        // Act
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/courses/{courseId}/assign-instructor/{instructorId}", courseId, instructorId)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        // Assert
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(courseId))
+                .andExpect(jsonPath("$.name").value("Java Programming"))
+                .andExpect(jsonPath("$.instructor").exists()) // Check if "instructor" property exists
+                .andExpect(jsonPath("$.instructor.id").value(instructorId))
+                .andExpect(jsonPath("$.instructor.name").value("John Doe"));
     }
 }

@@ -32,4 +32,9 @@ public class CourseController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @PostMapping("/{courseId}/assign-instructor/{instructorId}")
+    public ResponseEntity<Course> assignInstructorToCourse(@PathVariable Long courseId, @PathVariable Long instructorId) {
+        Course assignedCourse = courseService.assignInstructorToCourse(courseId, instructorId);
+        return new ResponseEntity<>(assignedCourse, HttpStatus.OK);
+    }
 }

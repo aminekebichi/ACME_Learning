@@ -1,10 +1,8 @@
 package acme.learning.hbp.course;
 
+import acme.learning.hbp.instructor.Instructor;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Course {
@@ -14,6 +12,9 @@ public class Course {
     private Long id;
     @JsonProperty("name")
     private String name;
+    @ManyToOne
+    @JoinColumn(name = "instructor_id")
+    private Instructor instructor;
 
     public Long getId() {
         return id;
@@ -29,5 +30,13 @@ public class Course {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
     }
 }
