@@ -1,5 +1,7 @@
 package acme.learning.hbp.course;
 
+import acme.learning.hbp.exceptions.CourseAlreadyStartedException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +43,16 @@ public class CourseController {
     public ResponseEntity<Course> setCourseToStarted(@PathVariable Long courseId) {
         Course startedCourse = courseService.setCourseToStarted(courseId);
         return new ResponseEntity<>(startedCourse, HttpStatus.OK);
+    }
+    @PostMapping("/{courseId}/assign-student/{studentId}")
+    public ResponseEntity<Object> assignStudentToCourse(@PathVariable Long courseId, @PathVariable Long studentId) {
+        try {
+            Course assignedCourse = courseService.assignStudentToCourse(courseId, studentId);
+            return new ResponseEntity<>(assignedCourse, HttpStatus.OK);
+        } catch (CourseAlreadyStartedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 }
