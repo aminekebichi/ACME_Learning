@@ -1,4 +1,4 @@
-package acme.learning.hbp.security;
+package acme.learning.hbp.user;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
