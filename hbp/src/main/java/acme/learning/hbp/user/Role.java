@@ -1,6 +1,6 @@
-package acme.learning.hbp.user;
-
-public enum Role {
-    STUDENT,
-    INSTRUCTOR;
-}
+//package acme.learning.hbp.user;
+//
+//public enum Role {
+//    STUDENT,
+//    INSTRUCTOR;
+//}
