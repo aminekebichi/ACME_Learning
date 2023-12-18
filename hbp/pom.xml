@@ -12,7 +12,7 @@
 	<artifactId>hbp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>hbp</name>
-	<description>Demo project for Spring Boot</description>
+	<description>ACME Learning is an online education platform that helps Instructors to create Courses and make them available for Students to enroll.</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -38,6 +38,11 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -47,26 +52,6 @@
             <artifactId>velocity</artifactId>
             <version>1.7</version>
         </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>5.7.0</version>
-            <scope>test</scope>
-        </dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>6.2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>6.2.0</version>
-		</dependency>
-		<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-security</artifactId>-->
-<!--		</dependency>-->
     </dependencies>
 
 	<build>
@@ -74,6 +59,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

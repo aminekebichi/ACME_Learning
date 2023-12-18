@@ -2,8 +2,6 @@ package acme.learning.hbp.course;
 
 import acme.learning.hbp.instructor.Instructor;
 import acme.learning.hbp.student.Student;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
