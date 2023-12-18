@@ -1,5 +1,7 @@
 package acme.learning.hbp.instructor;
 
+import acme.learning.hbp.course.Course;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +22,15 @@ public class InstructorService {
     public Instructor getInstructorById(Long id) {
         Optional<Instructor> optionalInstructor = instructorRepository.findById(id);
         return optionalInstructor.orElse(null);
+    }
+    public List<Course> getCoursesByInstructor(Long instructorId) {
+        Optional<Instructor> optionalInstructor = instructorRepository.findById(instructorId);
+
+        if (optionalInstructor.isPresent()) {
+            Instructor instructor = optionalInstructor.get();
+            return instructor.getCourses();
+        } else {
+            throw new ResourceNotFoundException("Instructor not found");
+        }
     }
 }
